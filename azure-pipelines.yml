@@ -1,33 +1,53 @@
-# .NET Desktop
-# Build and run tests for .NET Desktop or Windows classic desktop solutions.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
+variables:      # pipeline-level
+  pipelineVersionFromCode: '1.x'
 
-trigger:
-- master
+trigger: 
+    none
 
-pool:
-  vmImage: 'windows-latest'
+stages:
+- stage: Prep
+  jobs:
+  - job: GetVersion
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - checkout: none
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+    - task: PowerShell@2
+      displayName: Get the version from directory.builds.props
+      inputs:
+        targetType: 'inline'
+        script: |
+          [string] $version = $env:originVersion 
+          Write-Host "Updating the value of the buildVersion to '$version'."
+          Write-Host "##vso[task.setvariable variable=versionFromCode;isOutput=true;]$version";
+          Write-Host "##vso[task.setvariable variable=pipelineVersionFromCode;isOutput=true;]$version";
 
-steps:
-- task: NuGetToolInstaller@1
+    - task: PowerShell@2
+      displayName: Show the version
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "Current versionFromCode is '$env:versionFromCode'."
+          Write-Host "Current pipelineVersionFromCode is '$($env:pipelineVersionFromCode)'."
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+#- stage: 'TestingPrep'
+#  jobs:
+  - job: TestingVariables
+    dependsOn: GetVersion
+    pool:
+      vmImage: 'windows-latest'
+    variables:
+      someVersion:  variables[dependencies.GetVersion.outputs['versionFromCode']
+      testVersion:  $[counter(variables[dependencies.GetVersion.outputs['versionFromCode']], 0)]
+    steps:
+    - checkout: none
+    - task: PowerShell@2
+      displayName: Set the name of the build
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "Current testversion is '$(testVersion)'."
+          Write-Host "Current someVersion is '$(someVersion)'."
+          Write-Host "Current versionFromCode is '$(dependencies.GetVersion.outputs['versionFromCode'])'."
+          Write-Host "Current pipelineVersionFromCode is '$(dependencies.GetVersion.outputs['pipelineVersionFromCode'])'."
