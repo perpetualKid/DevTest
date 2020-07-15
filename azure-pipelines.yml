@@ -47,8 +47,10 @@ stages:
     pool:
       vmImage: 'windows-latest'
     variables:
-      someVersion:  $[counter($[dependencies.GetVersion.outputs['setVariableStep2.pipelineVersionFromCode']], 0)]
-      testVersion:  $[counter($[dependencies.GetVersion.outputs['setVariableStep.pipelineVersionFromCode']], 0)]
+      code1: $[dependencies.GetVersion.outputs['setVariableStep2.pipelineVersionFromCode']]
+      code2: $[dependencies.GetVersion.outputs['setVariableStep.pipelineVersionFromCode']]
+      version1:  $[counter($(code1), 0)]
+      version2:  $[counter(variables['code2'], 0)]
     steps:
     - checkout: none
     - task: PowerShell@2
@@ -56,5 +58,5 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          Write-Host "Current testversion is '$(testVersion)'."
-          Write-Host "Current someVersion is '$(someVersion)'."
+          Write-Host "Current version1 is '$(version1)'."
+          Write-Host "Current version2 is '$(version2)'."
