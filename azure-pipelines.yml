@@ -30,7 +30,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          Write-Host "Current versionFromCode is '$versionFromCode'."
+          Write-Host "Current versionFromCode is '$($versionFromCode)'."
           Write-Host "Current pipelineVersionFromCode is '$pipelineVersionFromCode'."
 
   - job: TestingVariables
