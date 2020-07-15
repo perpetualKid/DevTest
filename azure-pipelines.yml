@@ -49,7 +49,7 @@ stages:
     variables:
       code1: $[dependencies.GetVersion.outputs['setVariableStep2.pipelineVersionFromCode']]
       code2: $[dependencies.GetVersion.outputs['setVariableStep.pipelineVersionFromCode']]
-      version1:  $[counter($(code1), 0)]
+#      version1:  $[counter($(code1), 0)]
       version2:  $[counter(variables['code2'], 0)]
     steps:
     - checkout: none
@@ -58,5 +58,5 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          Write-Host "Current version1 is '$(version1)'."
-          Write-Host "Current version2 is '$(version2)'."
+          Write-Host "Current version1 is '$(version1)', '$(code1)'."
+          Write-Host "Current version2 is '$(version2)', '$(code2)'."
