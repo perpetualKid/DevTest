@@ -48,7 +48,7 @@ stages:
       vmImage: 'windows-latest'
     variables:
       someVersion:  $[dependencies.GetVersion.outputs['setVariableStep2.pipelineVersionFromCode']]
-      testVersion:  $[dependencies.GetVersion.outputs['setVariableStep.pipelineVersionFromCode']]
+      testVersion:  counter($[dependencies.GetVersion.outputs['setVariableStep.pipelineVersionFromCode']], 0)
     steps:
     - checkout: none
     - task: PowerShell@2
