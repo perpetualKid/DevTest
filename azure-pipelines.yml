@@ -49,7 +49,7 @@ stages:
     variables:
       code1: $[dependencies.GetVersion.outputs['setVariableStep2.pipelineVersionFromCode']]
       code2: $[dependencies.GetVersion.outputs['setVariableStep.pipelineVersionFromCode']]
-#      version1:  $[counter($(code1), 0)]
+      version1:  $[counter(variables['code1'], 0)]
       version2:  $[counter(variables['code2'], 0)]
     steps:
     - checkout: none
