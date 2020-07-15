@@ -28,14 +28,25 @@ stages:
         script: |
           Write-Host "Current versionFromCode is '$(setVariableStep.versionFromCode)'."
           Write-Host "Current pipelineVersionFromCode is '$(setVariableStep.pipelineVersionFromCode)'."
+          Write-Host "##vso[task.setvariable variable=pipelineVersionFromCode;isOutput=true;]Reset";
+
+
+    - task: PowerShell@2
+      displayName: Show another version
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "Current versionFromCode is '$(setVariableStep.versionFromCode)'."
+          Write-Host "Current pipelineVersionFromCode is '$(setVariableStep.pipelineVersionFromCode)'."
+
 
   - job: TestingVariables
     dependsOn: GetVersion
     pool:
       vmImage: 'windows-latest'
     variables:
-      someVersion:  $[dependencies.GetVersion.outputs['setVariableStep.pipelineVersionFromCode']
-      testVersion:  $[counter(variables[dependencies.GetVersion.outputs['setVariableStep.versionFromCode']], 0)]
+      someVersion:  1
+      testVersion:  2
     steps:
     - checkout: none
     - task: PowerShell@2
