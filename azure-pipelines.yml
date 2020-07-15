@@ -1,6 +1,6 @@
-variables:      # pipeline-level
-  pipelineVersionFromCode: '---'
-  versionFromCode: 'xxx'
+#variables:      # pipeline-level
+#  pipelineVersionFromCode: '---'
+#  versionFromCode: 'xxx'
 
 trigger: 
     none
@@ -30,8 +30,8 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          Write-Host "Current versionFromCode is '$($env:versionFromCode)'."
-          Write-Host "Current pipelineVersionFromCode is '$($env:pipelineVersionFromCode)'."
+          Write-Host "Current versionFromCode is '$(versionFromCode)'."
+          Write-Host "Current pipelineVersionFromCode is '$(pipelineVersionFromCode)'."
 
   - job: TestingVariables
     dependsOn: GetVersion
