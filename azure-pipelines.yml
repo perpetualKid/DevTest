@@ -28,11 +28,9 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          Write-Host "Current versionFromCode is '$env:versionFromCode'."
+          Write-Host "Current versionFromCode is '$($env:versionFromCode)'."
           Write-Host "Current pipelineVersionFromCode is '$($env:pipelineVersionFromCode)'."
 
-#- stage: 'TestingPrep'
-#  jobs:
   - job: TestingVariables
     dependsOn: GetVersion
     pool:
@@ -49,5 +47,5 @@ stages:
         script: |
           Write-Host "Current testversion is '$(testVersion)'."
           Write-Host "Current someVersion is '$(someVersion)'."
-          Write-Host "Current versionFromCode is '$(dependencies.GetVersion.outputs['versionFromCode'])'."
-          Write-Host "Current pipelineVersionFromCode is '$(dependencies.GetVersion.outputs['pipelineVersionFromCode'])'."
+          Write-Host "Current versionFromCode is '$($dependencies.GetVersion.outputs['versionFromCode'])'."
+          Write-Host "Current pipelineVersionFromCode is '$($dependencies.GetVersion.outputs['pipelineVersionFromCode'])'."
