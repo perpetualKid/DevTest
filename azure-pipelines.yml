@@ -1,5 +1,5 @@
 variables:      # pipeline-level
-  pipelineVersionFromCode: '1.x'
+  pipelineVersionFromCode: '---'
   versionFromCode: 'xxx'
 
 trigger: 
