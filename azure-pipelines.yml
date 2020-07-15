@@ -23,6 +23,7 @@ stages:
 
     - task: PowerShell@2
       displayName: Show the version
+      name: setVariableStep2
       inputs:
         targetType: 'inline'
         script: |
@@ -38,6 +39,7 @@ stages:
         script: |
           Write-Host "Current versionFromCode is '$(setVariableStep.versionFromCode)'."
           Write-Host "Current pipelineVersionFromCode is '$(setVariableStep.pipelineVersionFromCode)'."
+          Write-Host "Current pipelineVersionFromCode2 is '$(setVariableStep2.pipelineVersionFromCode)'."
 
 
   - job: TestingVariables
