@@ -51,6 +51,12 @@ stages:
       code2: $[dependencies.GetVersion.outputs['setVariableStep.pipelineVersionFromCode']]
       version1:  $[counter(variables['code1'], 0)]
       version2:  $[counter(variables['code2'], 0)]
+
+      ${{ if ne( variables['channel'], '' ) }}: 
+        environment: ${channel}-${{ variables['channel'] }}
+      ${{ if eq( variables['channel'], '' ) }}: 
+        environment: 'empty'
+
     steps:
     - checkout: none
     - task: PowerShell@2
@@ -60,3 +66,4 @@ stages:
         script: |
           Write-Host "Current version1 is '$(version1)', '$(code1)'."
           Write-Host "Current version2 is '$(version2)', '$(code2)'."
+          Write-Host "Current version1 is '$(environment)', '$(code1)'."
