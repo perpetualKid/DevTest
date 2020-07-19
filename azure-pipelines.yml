@@ -52,13 +52,9 @@ stages:
       version1:  $[counter(variables['code1'], 0)]
       version2:  $[counter(variables['code2'], 0)]
 
-      $[eq(variables['channel'], '')]:
-        environment2: 'empty'
-      $[ne(variables['channel'], '')]:
-        environment2: 'not empty'
       ${{ if eq( variables.channel, '' ) }}: 
         environment: 'empty'
-      ${{ if ne( variables.channel, '' ) }}: 
+      ${{ if ne( variables['channel'], '' ) }}: 
         environment: ${channel}-${{ variables['channel'] }}
 
     steps:
@@ -70,4 +66,4 @@ stages:
         script: |
           Write-Host "Current version1 is '$(version1)', '$(code1)'."
           Write-Host "Current version2 is '$(version2)', '$(code2)'."
-          Write-Host "Current version1 is '$(environment)', '$(environment2)'."
+          Write-Host "Current version1 is '$(environment)', '$(code1)'."
