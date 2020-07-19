@@ -70,4 +70,4 @@ stages:
         script: |
           Write-Host "Current version1 is '$(version1)', '$(code1)'."
           Write-Host "Current version2 is '$(version2)', '$(code2)'."
-          Write-Host "Current version1 is '$(environment)', '$(code1)'."
+          Write-Host "Current version1 is '$(environment)', '$(environment2)'."
