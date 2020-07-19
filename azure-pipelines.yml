@@ -52,9 +52,9 @@ stages:
       version1:  $[counter(variables['code1'], 0)]
       version2:  $[counter(variables['code2'], 0)]
 
-      ${{ if eq( variables.channel, '' ) }}: 
+      ${{ if eq( parameters.channel, '' ) }}: 
         environment: 'empty'
-      ${{ if ne( variables.channel, '' ) }}: 
+      ${{ if ne( parameters.channel, '' ) }}: 
         environment: ${channel}-${{ variables['channel'] }}
 
     steps:
