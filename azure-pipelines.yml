@@ -52,10 +52,10 @@ stages:
       version1:  $[counter(variables['code1'], 0)]
       version2:  $[counter(variables['code2'], 0)]
 
-      ${{ if ne( variables['channel'], '' ) }}: 
-        environment: ${channel}-${{ variables['channel'] }}
       ${{ if eq( variables['channel'], '' ) }}: 
         environment: 'empty'
+      ${{ if ne( variables['channel'], '' ) }}: 
+        environment: ${channel}-${{ variables['channel'] }}
 
     steps:
     - checkout: none
