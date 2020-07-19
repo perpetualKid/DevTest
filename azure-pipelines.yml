@@ -56,7 +56,7 @@ stages:
       ${{ if ne( variables['channel'], '' ) }}: 
         environment: 'empty'
       ${{ if eq( variables['channel'], '' ) }}: 
-        environment: $(channel)-$(variables['channel'])
+        environment: $(channel)-variables['channel']
 
     steps:
     - checkout: none
