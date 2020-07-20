@@ -107,7 +107,7 @@ stages:
           }
           else          
           { 
-            $release = [PSCustomObject]@{name =$(channel), date = $($date), url = 'http://Texas', version = '3.0'}
+            $release = [PSCustomObject]@{name =$(channel); date = $date; url = 'http://Texas'; version = '3.0'}
             $versionTable.channels += $release
           }
           $json = $ versionTable | ConvertTo-Json -Depth 8
