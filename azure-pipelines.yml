@@ -76,4 +76,4 @@ stages:
           | ConvertTo-Html -title "Open Rails Commit History Channel=$(channel) Version=$(version1)" `
           -Property @{Label="Link";Expression={"<a href=''$($githubUrl)$($_.Commit)''>$($_.Commit)</a>"}}, Date, Author, Message
           [System.Net.WebUtility]::HtmlDecode($html) | Out-File $(Build.ArtifactStagingDirectory)/history.html
-          Write-Host "HTml '$(html)'"
+          Write-Host "HTml '$($html)'"
