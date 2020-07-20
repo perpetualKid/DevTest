@@ -78,3 +78,16 @@ stages:
           -Property @{Label="Link";Expression={"<a href='$(githubUrl)$($_.Commit)'>$($_.Commit)</a>"}}, Date, Author, Message
           [System.Net.WebUtility]::HtmlDecode($html) | Out-File $(Build.ArtifactStagingDirectory)/history.html
           Write-Host "HTml '$($html)'"
+          [System.Net.WebUtility]::HtmlDecode($html) | Out-File $(Build.ArtifactStagingDirectory)/history.html
+
+
+    - task: AzureFileCopy@3
+      displayName: Uploading history logs to Azure
+      inputs:
+        SourcePath: '$(Build.ArtifactStagingDirectory)'
+        ConnectedServiceNameARM: 'Visual Studio Enterprise(81c98ddc-0e66-422e-af90-10337e5c2352)'
+        Destination: 'AzureBlob'
+        StorageAccountRM: 'ultimaterails'
+        ContainerName: 'builds'
+        BlobPrefix: 'citest'
+        additionalArgumentsForBlobCopy: '/Pattern:*.html /Y /SetContentType:text/html'
