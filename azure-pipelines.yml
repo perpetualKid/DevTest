@@ -93,10 +93,12 @@ stages:
             $versionTableString = [System.Text.Encoding]::Unicode.GetString($versionTableString)
             $versionTable = $versionTableString.TrimStart([char]65279) | ConvertFrom-Json
             Write-Host "versionTableString '$($versionTableString)'"
+            Write-Host "versionTable '$($versionTable)'"
           }
           catch { $versionTable  = [PSCustomObject]@{ "channels" = @()}}
-          $release = $versionTable.channnels | where {$_.name -eq '$(channel)'}
-          Write-Host "versionTableString '$($versionTable.channnels)'"
+          $release = $versionTable.channnels | where {$_.name -eq $(channel)}
+          Write-Host "versionTable '$($versionTable)'"
+          Write-Host "versionTablechannel '$($versionTable.channnels)'"
           Write-Host " Release '$($release)'"
           $date = get-date
           $date = $date.AddTicks(-$date.Ticks % [TimeSpan]::TicksPerSecond)
