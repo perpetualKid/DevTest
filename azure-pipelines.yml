@@ -92,11 +92,12 @@ stages:
             $versionTableString = (new-object System.Net.WebClient).DownloadData("https://ultimaterails.blob.core.windows.net/builds/devtest/version.json")
             $versionTableString = [System.Text.Encoding]::Unicode.GetString($versionTableString)
             $versionTable = $versionTableString.TrimStart([char]65279) | ConvertFrom-Json
-            Write-Host " '$($versionTableString)'"
+            Write-Host "versionTableString '$($versionTableString)'"
           }
           catch { $versionTable  = [PSCustomObject]@{ "channels" = @()}}
           $release = $versionTable.channnels | where {$_.name -eq '$(channel)'}
-          Write-Host " '$($release)'"
+          Write-Host "versionTableString '$($versionTable.channnels)'"
+          Write-Host " Release '$($release)'"
           $date = get-date
           $date = $date.AddTicks(-$date.Ticks % [TimeSpan]::TicksPerSecond)
           $date = $date.ToUniversalTime().ToString("o")
