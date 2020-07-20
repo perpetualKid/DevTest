@@ -110,7 +110,7 @@ stages:
             $release = [PSCustomObject]@{name ='$(channel)'; date = '$($date)'; url = 'http://Texas'; version = '3.0'}
             $versionTable.channels += $release
           }
-          $json = $ versionTable | ConvertTo-Json -Depth 8
+          $json = $versionTable | ConvertTo-Json -Depth 8
           $json | Out-File $(Build.ArtifactStagingDirectory)/version.json
           Write-Host "Json '$($json)'"
           [System.Net.WebUtility]::HtmlDecode($html) | Out-File $(Build.ArtifactStagingDirectory)/history.html
