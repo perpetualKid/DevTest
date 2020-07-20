@@ -89,7 +89,7 @@ stages:
           $versionTable = ''
           try 
           { 
-            $versionTableString = (new-object System.Net.WebClient).DownloadData("https://ultimaterails.blob.core.windows.net/ci-builds/devtest/version.json")
+            $versionTableString = (new-object System.Net.WebClient).DownloadData("https://ultimaterails.blob.core.windows.net/builds/devtest/version.json")
             $versionTableString = [System.Text.Encoding]::Unicode.GetString($versionTableString)
             $versionTable = $versionTableString.TrimStart([char]65279) | ConvertFrom-Json
             Write-Host " '$($versionTableString)'"
@@ -107,7 +107,7 @@ stages:
           }
           else          
           { 
-            $release = [PSCustomObject]@{name ='$(channel)'; date = '$($date)'; url = 'http://Texas'; version = '3.0'}
+            $release = [PSCustomObject]@{name ='$(channel)'; date = $date; url = 'http://Texas'; version = '3.0'}
             $versionTable.channels += $release
           }
           $json = $versionTable | ConvertTo-Json -Depth 8
