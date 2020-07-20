@@ -85,7 +85,7 @@ stages:
       displayName: Uploading history logs to Azure
       inputs:
         SourcePath: '$(Build.ArtifactStagingDirectory)'
-        ConnectedServiceNameARM: 'Visual Studio Enterprise(81c98ddc-0e66-422e-af90-10337e5c2352)'
+        azureSubscription: 'Azure Enterprise'
         Destination: 'AzureBlob'
         StorageAccountRM: 'ultimaterails'
         ContainerName: 'builds'
