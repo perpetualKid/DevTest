@@ -74,6 +74,6 @@ stages:
           $html = git log --pretty=format:"%h|%ad|%an|%s" --date=format:"%Y-%m-%dT%H:%MZ" -100 `
           | ConvertFrom-Csv -Delimiter "|" -Header "Commit", "Date", "Author", "Message" `
           | ConvertTo-Html -title "Open Rails Commit History Channel=$(channel) Version=$(version1)" `
-          -Property @{Label="Link";Expression={"<a href=''$($githubUrl)$($_.Commit)''>$($_.Commit)</a>"}}, Date, Author, Message
+          -Property @{Label="Link";Expression={"<a href='$($githubUrl)$($_.Commit)'>$($_.Commit)</a>"}}, Date, Author, Message
           [System.Net.WebUtility]::HtmlDecode($html) | Out-File $(Build.ArtifactStagingDirectory)/history.html
           Write-Host "HTml '$($html)'"
