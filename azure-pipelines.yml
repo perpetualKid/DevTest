@@ -96,6 +96,7 @@ stages:
           }
           catch { $versionTable  = [PSCustomObject]@{ "channels" = @()}}
           $release = $versionTable.channnels | where {$_.name -eq '$(channel)'}
+          Write-Host " '$($release)'"
           $date = get-date
           $date = $date.AddTicks(-$date.Ticks % [TimeSpan]::TicksPerSecond)
           $date = $date.ToUniversalTime().ToString("o")
