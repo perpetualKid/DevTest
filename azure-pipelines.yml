@@ -20,6 +20,15 @@ stages:
           Write-Host "Updating the value of the buildVersion to '$version'."
           Write-Host "##vso[task.setvariable variable=versionFromCode;isOutput=true;]$version";
           Write-Host "##vso[task.setvariable variable=pipelineVersionFromCode;isOutput=true;]$version";
+          $HtmlHead = @"
+          <style>
+          TABLE {border-width: 1px; border-style: solid; border-color: black; border-collapse: collapse;}
+          TH {border-width: 1px; padding: 3px; border-style: solid; border-color: black; background-color: #6495ED;}
+          TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
+          </style>
+          <title>Commit History</title>
+          "@
+          Write-Host $HtmlHead                    
 
     - task: PowerShell@2
       displayName: Show the version
