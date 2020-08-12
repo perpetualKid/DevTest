@@ -66,8 +66,12 @@ stages:
      
       environment2:  $[if ne( variables['channel'], '' ) 'empty'
 
-      ${{ if ne( variables['channel'], '' ) }}: 
-        environment: 'empty'
+#      ${{ if ne( variables['channel'], '' ) }}: 
+#        environment: 'empty'
+#      ${{ if eq( variables['channel'], '' ) }}: 
+#        environment: $(channel)-variables['channel']
+#      ${{ if ne( variables['channel'], '' ) }}: 
+      environment: 'empty'
       ${{ if eq( variables['channel'], '' ) }}: 
         environment: $(channel)-variables['channel']
 
@@ -81,7 +85,7 @@ stages:
         script: |
           Write-Host "Current version1 is '$(version1)', '$(code1)'."
           Write-Host "Current version2 is '$(version2)', '$(code2)'."
-          Write-Host "Current version1 is '$(environment)', '$(environment2)'."
+          Write-Host "Current version is '$(environment)', '$(environment2)'."
           $html = git log --pretty=format:"%h|%ad|%an|%s" --date=format:"%Y-%m-%dT%H:%MZ" -100 `
           | ConvertFrom-Csv -Delimiter "|" -Header "Commit", "Date", "Author", "Message" `
           | ConvertTo-Html -title "Open Rails Commit History Channel=$(channel) Version=$(version1)" `
