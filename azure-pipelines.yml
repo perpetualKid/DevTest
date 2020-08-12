@@ -70,10 +70,11 @@ stages:
 #        environment: 'empty'
 #      ${{ if eq( variables['channel'], '' ) }}: 
 #        environment: $(channel)-variables['channel']
-      ${{ if ne( variables['channel'], '' ) and ne( variables['channel'], 'ci' )}}: 
-        environment: 'empty'
-      ${{ if eq( variables['channel'], '' ) }}: 
-        environment: $(channel)-variables['channel']
+      environment: $(channel)-variables['channel']
+      -name: environment 
+      ${{ if in( variables['channel'], '', 'ci' ) }}: 
+        value: 'empty'
+      #environment: $(channel)-variables['channel']
 
     steps:
 #    - checkout: none
