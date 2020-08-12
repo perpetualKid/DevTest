@@ -70,8 +70,8 @@ stages:
 #        environment: 'empty'
 #      ${{ if eq( variables['channel'], '' ) }}: 
 #        environment: $(channel)-variables['channel']
-#      ${{ if ne( variables['channel'], '' ) }}: 
-      environment: 'empty'
+      ${{ if ne( variables['channel'], '' ) and ne( variables['channel'], 'ci' )}}: 
+        environment: 'empty'
       ${{ if eq( variables['channel'], '' ) }}: 
         environment: $(channel)-variables['channel']
 
