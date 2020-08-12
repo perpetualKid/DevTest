@@ -75,15 +75,15 @@ stages:
 
       environment2:  $[if ne( variables['channel'], '' ) 'empty'
 
-      ${{ if ne( variables['channel'], '' ) }}: 
-        environment: $(channel)-variables['channel']
-      ${{ if eq( variables['channel'], '' ) }}: 
-        environment: 'empty'
-      #environment: $(channel)-variables['channel']
-#      ${{if notin( variables['channel'], '', 'ci' )}}: 
-#        environment: 'not empty'
-#      ${{if in( variables['channel'], '', 'ci' )}}: 
+#      ${{ if ne( variables['channel'], '' ) }}: 
+#        environment: $(channel)-variables['channel']
+#      ${{ if eq( variables['channel'], '' ) }}: 
 #        environment: 'empty'
+      #environment: $(channel)-variables['channel']
+      ${{if notin( parameters.channelName, 'dev', 'ci' )}}: 
+        environment: 'RELEASE Build'
+      ${{if in( parameters.channelName, 'dev', 'ci' )}}: 
+        environment: 'DEBUG Build'
 
     steps:
 #    - checkout: none
