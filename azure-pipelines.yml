@@ -72,7 +72,7 @@ stages:
       version1:  $[counter(variables['code1'], 0)]
       version2:  $[counter(variables['code2'], 0)]
       testparam: ${{ parameters.channelName }}
-      version3:  $[counter($(testparam), 0)]
+      version3:  'test123' #$[counter($(testparam), 0)]
       githubUrl: 'https://github.com/perpetualKid/ORTS-MG/commit/'
 
 
