@@ -71,7 +71,8 @@ stages:
       code2: $[dependencies.GetVersion.outputs['setVariableStep.pipelineVersionFromCode']]
       version1:  $[counter(variables['code1'], 0)]
       version2:  $[counter(variables['code2'], 0)]
-      version3:  $[counter(${{ parameters.channelName }}), 0)
+      testparam: ${{ parameters.channelName }}
+      version3:  $[counter(${{ parameters.channelName }}), 0)]
       githubUrl: 'https://github.com/perpetualKid/ORTS-MG/commit/'
 
       environment2:  $[if ne( variables['channel'], '' ) 'empty'
@@ -85,7 +86,6 @@ stages:
         environment: 'RELEASE Build'
       ${{if in( parameters.channelName, 'dev', 'ci' )}}: 
         environment: 'DEBUG Build'
-      testparam: ${{ parameters.channelName }}
     steps:
 #     - checkout: none
 
