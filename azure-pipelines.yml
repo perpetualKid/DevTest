@@ -85,7 +85,7 @@ stages:
         environment: 'RELEASE Build'
       ${{if in( parameters.channelName, 'dev', 'ci' )}}: 
         environment: 'DEBUG Build'
-      testparam: parameters.channelName
+      testparam: ${{ parameters.channelName }}
     steps:
 #     - checkout: none
 
