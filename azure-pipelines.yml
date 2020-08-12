@@ -71,7 +71,7 @@ stages:
       code2: $[dependencies.GetVersion.outputs['setVariableStep.pipelineVersionFromCode']]
       version1:  $[counter(variables['code1'], 0)]
       version2:  $[counter(variables['code2'], 0)]
-      testparam: lower(${{ parameters.channelName }})
+      testparam: $[lower(${{ parameters.channelName }})]
       #version3:  $(testparam) 
       version3:  $[counter(variables['testparam'], 0)]
       githubUrl: 'https://github.com/perpetualKid/ORTS-MG/commit/'
