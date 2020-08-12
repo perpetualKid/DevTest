@@ -63,14 +63,13 @@ stages:
       version2:  $[counter(variables['code2'], 0)]
       githubUrl: 'https://github.com/perpetualKid/ORTS-MG/commit/'
 
-     
       environment2:  $[if ne( variables['channel'], '' ) 'empty'
 
 #      ${{ if ne( variables['channel'], '' ) }}: 
 #        environment: 'empty'
 #      ${{ if eq( variables['channel'], '' ) }}: 
 #        environment: $(channel)-variables['channel']
-      environment: $(channel)-variables['channel']
+      #environment: $(channel)-variables['channel']
       -name: environment 
       ${{ if in( variables['channel'], '', 'ci' ) }}: 
         value: 'empty'
@@ -96,6 +95,7 @@ stages:
           [System.Net.WebUtility]::HtmlDecode($html) | Out-File $(Build.ArtifactStagingDirectory)/history.html
 
     - task: PowerShell@2
+      condition: false 
       displayName: Create the versions table
       inputs:
         targetType: 'inline'
@@ -134,6 +134,7 @@ stages:
           [System.Net.WebUtility]::HtmlDecode($html) | Out-File $(Build.ArtifactStagingDirectory)/history.html
 
     - task: AzureFileCopy@3
+      condition: false 
       displayName: Uploading history logs to Azure
       inputs:
         SourcePath: '$(Build.ArtifactStagingDirectory)'
@@ -145,6 +146,7 @@ stages:
         additionalArgumentsForBlobCopy: '/Pattern:*.html /Y /SetContentType:text/html'
 
     - task: AzureFileCopy@3
+      condition: false 
       displayName: Uploading version table to Azure
       inputs:
         SourcePath: '$(Build.ArtifactStagingDirectory)'
