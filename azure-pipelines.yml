@@ -66,9 +66,9 @@ stages:
       environment2:  $[if ne( variables['channel'], '' ) 'empty'
 
       ${{ if ne( variables['channel'], '' ) }}: 
-        environment: 'empty'
-      ${{ if eq( variables['channel'], '' ) }}: 
         environment: $(channel)-variables['channel']
+      ${{ if eq( variables['channel'], '' ) }}: 
+        environment: 'empty'
       #environment: $(channel)-variables['channel']
 #      ${{if notin( variables['channel'], '', 'ci' )}}: 
 #        environment: 'not empty'
