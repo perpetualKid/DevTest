@@ -66,13 +66,14 @@ stages:
     pool:
       vmImage: 'windows-latest'
     variables:
-      system.debug: true
+#      system.debug: true
       code1: $[dependencies.GetVersion.outputs['setVariableStep2.pipelineVersionFromCode']]
       code2: $[dependencies.GetVersion.outputs['setVariableStep.pipelineVersionFromCode']]
       version1:  $[counter(variables['code1'], 0)]
       version2:  $[counter(variables['code2'], 0)]
       testparam: ${{ parameters.channelName }}
-      version3:  ($(testparam)) #$[counter($(testparam), 0)]
+      #version3:  $(testparam) 
+      version3:  $[counter($[variables.testparam]), 0)]
       githubUrl: 'https://github.com/perpetualKid/ORTS-MG/commit/'
 
 
