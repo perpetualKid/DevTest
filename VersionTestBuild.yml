@@ -1,47 +1,44 @@
 trigger: 
     none
 
-stages:
-- stage: Prep
-  jobs:
-  - job: BuildSolution
-    pool:
-      vmImage: 'windows-latest'
-    variables:
-      versionSuffix: 'ci.$(Build.BuildId)+Extended-MetaData'  
-      Version: '1.2.3.4.5.6'
-      solution: 'VersionTest/VersionTest.sln'
-      buildPlatform: 'Any CPU'
-      buildConfiguration: 'Release'
+pool:
+  vmImage: 'windows-latest'
 
-    steps:
-    - checkout: self
+variables:
+  versionSuffix: 'ci.$(Build.BuildId)+Extended-MetaData'  
+  Version: '1.2.3.4.5.6'
+  solution: 'VersionTest/VersionTest.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
 
-    - task: NuGetToolInstaller@1
-      displayName: Installing Nuget tools
+steps:
+  - checkout: self
 
-    - task: NuGetCommand@2
-      displayName: Restoring Nuget packages
-      inputs:
-        restoreSolution: '$(solution)'
+  - task: NuGetToolInstaller@1
+    displayName: Installing Nuget tools
 
-    - task: MSBuild@1
-      displayName: Building the solution
-      inputs:
-        solution: '$(solution)'
-        msbuildArchitecture: 'x64'
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
-        msbuildArguments: '-property:versionsuffix=$(versionSuffix)'
+  - task: NuGetCommand@2
+    displayName: Restoring Nuget packages
+    inputs:
+      restoreSolution: '$(solution)'
 
-    - task: CopyFiles@2
-      inputs:
-        contents: ' **\bin\**'
-        targetFolder: $(Build.ArtifactStagingDirectory)
+  - task: MSBuild@1
+    displayName: Building the solution
+    inputs:
+      solution: '$(solution)'
+      msbuildArchitecture: 'x64'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+      msbuildArguments: '-property:versionsuffix=$(versionSuffix)'
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
+  - task: CopyFiles@2
+    inputs:
+      contents: ' **\bin\**'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
 
