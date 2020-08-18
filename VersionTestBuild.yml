@@ -21,7 +21,7 @@ stages:
       channelTemp: ${{ parameters.channelName }}
       channel: $[lower(variables['channelTemp'])]
       versionSuffix: '$(channel).$(Build.BuildId)+Extended-MetaData'  
-      version: '1.2.3'
+      currentVersion: '1.2.3'
       archiveFile: '$(channel).$(Build.BuildId).zip'
       solution: 'VersionTest/VersionTest.sln'
       buildPlatform: 'Any CPU'
