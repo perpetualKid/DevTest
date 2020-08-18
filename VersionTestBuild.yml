@@ -1,16 +1,6 @@
 trigger: 
     none
 
-parameters:
-- name: channelName
-  displayName: Build Channel Name
-  type: string
-  default: DEV
-  values:
-  - DEV
-  - CI
-  - Release
-
 stages:
 - stage: Prep
   jobs:
@@ -18,11 +8,8 @@ stages:
     pool:
       vmImage: 'windows-latest'
     variables:
-      channelTemp: ${{ parameters.channelName }}
-      channel: $[lower(variables['channelTemp'])]
-      versionSuffix: '$(channel).$(Build.BuildId)+Extended-MetaData'  
+      versionSuffix: 'ci.$(Build.BuildId)+Extended-MetaData'  
       Version: '1.2.3.4.5.6'
-      archiveFile: '$(channel).$(Build.BuildId).zip'
       solution: 'VersionTest/VersionTest.sln'
       buildPlatform: 'Any CPU'
       buildConfiguration: 'Release'
@@ -58,20 +45,3 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
-    - task: ArchiveFiles@2
-      displayName: Creating zip archive
-      inputs:
-        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
-        includeRootFolder: true 
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(archiveFile)'
-        replaceExistingArchive: true
-
-    - task: AzureFileCopy@3
-      displayName: Uploading the binaries to Azure
-      inputs:
-        SourcePath: '$(Build.ArtifactStagingDirectory)/$(archiveFile)'
-        ConnectedServiceNameARM: 'Azure Enterprise'
-        Destination: 'AzureBlob'
-        StorageAccountRM: 'ultimaterails'
-        ContainerName: 'devtest'
