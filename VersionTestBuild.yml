@@ -21,6 +21,7 @@ stages:
       channelTemp: ${{ parameters.channelName }}
       channel: $[lower(variables['channelTemp'])]
       versionSuffix: '$(channel).$(Build.BuildId)+Extended-MetaData'  
+      archiveFile: '$(channel).$(Build.BuildId).zip'
       solution: 'VersionTest/VersionTest.sln'
       buildPlatform: 'Any CPU'
       buildConfiguration: 'Release'
@@ -45,6 +46,11 @@ stages:
         configuration: '$(buildConfiguration)'
         msbuildArguments: '-property:versionsuffix=$(versionSuffix)'
 
+    - task: CopyFiles@2
+      inputs:
+        contents: ' **\bin\**'
+        targetFolder: $(Build.ArtifactStagingDirectory)
+
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
@@ -57,13 +63,13 @@ stages:
         rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
         includeRootFolder: true 
         archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/devtest.zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(archiveFile).zip'
         replaceExistingArchive: true
 
     - task: AzureFileCopy@3
       displayName: Uploading the binaries to Azure
       inputs:
-        SourcePath: '$(Build.ArtifactStagingDirectory)/devtest.zip'
+        SourcePath: '$(Build.ArtifactStagingDirectory)/$(archiveFile).zip'
         ConnectedServiceNameARM: 'Azure Enterprise'
         Destination: 'AzureBlob'
         StorageAccountRM: 'ultimaterails'
