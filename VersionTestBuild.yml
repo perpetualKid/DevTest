@@ -20,7 +20,7 @@ stages:
     variables:
       channelTemp: ${{ parameters.channelName }}
       channel: $[lower(variables['channelTemp'])]
-      versionSuffix: '$(channel).23+Extended-MetaData'  
+      versionSuffix: '$(channel).$(Build.BuildId))+Extended-MetaData'  
       solution: 'DevTest/VersionTest/VersionTest.sln'
       buildPlatform: 'Any CPU'
       buildConfiguration: 'Release'
