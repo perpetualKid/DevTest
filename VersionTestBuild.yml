@@ -48,7 +48,7 @@ stages:
     - task: ArchiveFiles@2
       displayName: Creating zip archive
       inputs:
-        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+        rootFolderOrFile: '$(Build.BinariesDirectory)'
         includeRootFolder: true 
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/devtest.zip'
@@ -57,8 +57,8 @@ stages:
     - task: AzureFileCopy@3
       displayName: Uploading the binaries to Azure
       inputs:
-        SourcePath: '$(Build.BinariesDirectory)/devtest.zip'
-        ConnectedServiceNameARM: 'UltimateRails ARM Blob Storage'
+        SourcePath: '$(Build.ArtifactStagingDirectory)/devtest.zip'
+        ConnectedServiceNameARM: 'Azure Enterprise'
         Destination: 'AzureBlob'
         StorageAccountRM: 'ultimaterails'
         ContainerName: 'devtest'
