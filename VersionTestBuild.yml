@@ -1,0 +1,63 @@
+trigger: 
+    none
+
+parameters:
+- name: channelName
+  displayName: Build Channel Name
+  type: string
+  default: DEV
+  values:
+  - DEV
+  - CI
+  - Release
+
+stages:
+- stage: Prep
+  jobs:
+  - job: BuildSolution
+    pool:
+      vmImage: 'windows-latest'
+    variables:
+      versionSuffix: ci.23+Extended-MetaData  
+      solution: 'DevTest/VersionTest/VersionTest.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
+
+    steps:
+#     - checkout: none
+  - checkout: self
+
+  - task: NuGetToolInstaller@1
+    displayName: Installing Nuget tools
+
+  - task: NuGetCommand@2
+    displayName: Restoring Nuget packages
+    inputs:
+      restoreSolution: '$(solution)'
+
+  - task: MSBuild@1
+    displayName: Building the solution
+    inputs:
+      solution: '$(solution)'
+      msbuildArchitecture: 'x64'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+      msbuildArguments: '-property:versionsuffix=$(versionSuffix)'
+
+  - task: ArchiveFiles@2
+    displayName: Creating zip archive
+    inputs:
+      rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+      includeRootFolder: true 
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/devtest.zip'
+      replaceExistingArchive: true
+
+  - task: AzureFileCopy@3
+    displayName: Uploading the binaries to Azure
+    inputs:
+      SourcePath: '$(Build.BinariesDirectory)/devtest.zip'
+      ConnectedServiceNameARM: 'UltimateRails ARM Blob Storage'
+      Destination: 'AzureBlob'
+      StorageAccountRM: 'ultimaterails'
+      ContainerName: 'devtest'
