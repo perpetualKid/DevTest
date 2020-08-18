@@ -45,10 +45,16 @@ stages:
         configuration: '$(buildConfiguration)'
         msbuildArguments: '-property:versionsuffix=$(versionSuffix)'
 
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
     - task: ArchiveFiles@2
       displayName: Creating zip archive
       inputs:
-        rootFolderOrFile: '$(Build.BinariesDirectory)'
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
         includeRootFolder: true 
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/devtest.zip'
