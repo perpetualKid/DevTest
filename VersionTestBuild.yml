@@ -10,6 +10,7 @@ variables:
   solution: 'VersionTest/VersionTest.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  task: 'sometesttask'
 
 steps:
   - checkout: self
