@@ -63,13 +63,13 @@ stages:
         rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
         includeRootFolder: true 
         archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(archiveFile).zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(archiveFile)'
         replaceExistingArchive: true
 
     - task: AzureFileCopy@3
       displayName: Uploading the binaries to Azure
       inputs:
-        SourcePath: '$(Build.ArtifactStagingDirectory)/$(archiveFile).zip'
+        SourcePath: '$(Build.ArtifactStagingDirectory)/$(archiveFile)'
         ConnectedServiceNameARM: 'Azure Enterprise'
         Destination: 'AzureBlob'
         StorageAccountRM: 'ultimaterails'
